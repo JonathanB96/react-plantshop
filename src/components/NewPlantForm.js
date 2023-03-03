@@ -6,7 +6,21 @@ function NewPlantForm({list, setList}) {
   const [price, setPrice]= useState("")
  
   function handleSubmit(e){
-  
+   e.preventDefault()
+   fetch(`http://localhost:6001/plants`,{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"},
+    body: JSON.stringify({name: name, 
+    image: url, price: price})
+   }).then((r)=>{
+    if(r.ok){
+      r.json().then((newPlant)=>{
+        setList([...list, newPlant])
+      })
+    }
+   })
   }
   function handleName(e){
     setName(e.target.value)
